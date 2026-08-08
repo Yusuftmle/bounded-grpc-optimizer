@@ -15,7 +15,7 @@ Rather than relying on unconstrained machine learning models or purely reactive 
 A common question in network optimization is: *Why not use Neural Networks or Reinforcement Learning (RL)?*
 
 We explicitly chose a classical **1D Kalman Filter (Signal Processing / Control Theory)** over Machine Learning for three critical reasons:
-1. **Microsecond Execution Budget**: HTTP/2 transport paths run at microsecond velocity. A neural network inference (even a small ONNX model) introduces 5-50ms of overhead—violating the latency budget of transport loops.
+1. **Microsecond Execution Budget**: HTTP/2 transport paths run at microsecond velocity. Neural network inference (even lightweight models) introduces non-trivial latency overhead—violating the microsecond execution budget of low-level transport loops.
 2. **Formal Covariance Interpretability**: The Kalman Filter outputs an exact mathematical error covariance $P_t$, allowing the deterministic circuit breaker to know *precisely* when state uncertainty is high.
 3. **Zero Offline Training Required**: It operates as an **Online State Estimator**, continuously converging within initial RTT ticks without requiring offline datasets or retraining.
 
