@@ -10,6 +10,17 @@ Rather than relying on unconstrained machine learning models or purely reactive 
 
 ---
 
+## Why Control Theory (Kalman) Instead of ML / Deep Learning?
+
+A common question in network optimization is: *Why not use Neural Networks or Reinforcement Learning (RL)?*
+
+We explicitly chose a classical **1D Kalman Filter (Signal Processing / Control Theory)** over Machine Learning for three critical reasons:
+1. **Microsecond Execution Budget**: HTTP/2 transport paths run at microsecond velocity. A neural network inference (even a small ONNX model) introduces 5-50ms of overhead—violating the latency budget of transport loops.
+2. **Formal Covariance Interpretability**: The Kalman Filter outputs an exact mathematical error covariance $P_t$, allowing the deterministic circuit breaker to know *precisely* when state uncertainty is high.
+3. **Zero Offline Training Required**: It operates as an **Online State Estimator**, continuously converging within initial RTT ticks without requiring offline datasets or retraining.
+
+---
+
 ## Architecture Overview
 
 ```mermaid
@@ -50,11 +61,20 @@ We evaluated **Strategy A (Standard gRPC Reactive BDP)** against **Strategy B (B
 
 ---
 
+## Limitations & Future Scope
+
+> [!NOTE]
+> - **Synthetic Telemetry Validation**: This PoC is validated against simulated dynamic network traces (`telemetry.py` simulating 5G jitter and bufferbloat), not production gRPC channelz payloads.
+> - **Next Phase**: Ingesting real production metrics via OpenTelemetry / gRPC `channelz` C-API bindings represents the natural next phase.
+
+---
+
 ## Repository Structure
 
 ```text
 bounded-grpc-optimizer/
 ├── README.md                      # Architecture, benchmarks & thesis overview
+├── LICENSE                        # MIT License
 ├── requirements.txt               # Minimal dependencies
 ├── tools/
 │   └── bounded_optimizer/
