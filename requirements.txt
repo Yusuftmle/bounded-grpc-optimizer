@@ -1,0 +1,2 @@
+# Minimal dependencies for Bounded Transport Optimizer
+# No heavy external ML frameworks required
