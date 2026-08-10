@@ -69,7 +69,16 @@ We evaluated **Strategy A (Standard gRPC Reactive BDP)** against **Strategy B (B
 > - **Next Phase**: Ingesting real production metrics via OpenTelemetry / gRPC `channelz` C-API bindings represents the natural next phase.
 
 ---
+### Mathematical Formulation
 
+The 1D Kalman Filter tracks the underlying Bandwidth-Delay Product ($\text{BDP}_t$) from noisy RTT and throughput measurements:
+
+1. **State Prediction**: $\hat{x}_{t|t-1} = \hat{x}_{t-1|t-1}$
+2. **Covariance Update**: $P_{t|t-1} = P_{t-1|t-1} + Q$
+3. **Kalman Gain**: $K_t = \frac{P_{t|t-1}}{P_{t|t-1} + R}$
+4. **State Estimation**: $\hat{x}_{t|t} = \hat{x}_{t|t-1} + K_t (z_t - \hat{x}_{t|t-1})$
+
+Where $Q$ models process variance (bursty traffic) and $R$ models telemetry noise (network jitter).
 ## Repository Structure
 
 ```text
