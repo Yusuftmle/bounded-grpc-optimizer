@@ -33,6 +33,7 @@ flowchart TD
     D -->|Congested/Tripped: OPEN| F[Fallback to Standard Reactive BDP]
     D -->|Probing Recovery: HALF_OPEN| G[Probe Efficiency Step]
 ```
+<img width="424" height="235" alt="images" src="https://github.com/user-attachments/assets/9aacbf07-b05a-4d18-b7af-faf00ac7fd6b" />
 
 ### Key Components
 
